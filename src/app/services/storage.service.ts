@@ -9,8 +9,11 @@ export class StorageService {
   private _storage: Storage | null = null;
 
   private _localPersonajes: any[] = [];
+  private _localQrs: any[] = [];
   private personajesSubject = new BehaviorSubject<any[]>([]);  // Holds the current state of personajes[]
+  private qrsSubject = new BehaviorSubject<any[]>([]); 
   personajes$ = this.personajesSubject.asObservable();  // Observable to subscribe to
+  qrs$ = this.qrsSubject.asObservable(); 
 
   constructor(private storage: Storage) {
     this.init();
@@ -22,6 +25,7 @@ export class StorageService {
     this._storage = storage;
 
     this.loadFavorites();
+    this.loadQRS();
 
   }
 
@@ -47,6 +51,18 @@ export class StorageService {
 
   }
 
+  async loadQRS() {
+    try {
+      
+      const localQrs = await this._storage?.get('qrs');
+      this._localQrs = localQrs || [];
+
+    } catch (error) {
+      
+    }
+
+  }
+
   public personajeInFavorites( personaje: any ) {
     return !!this._localPersonajes.find( localPersonaje => localPersonaje.id === personaje.id );
   }
@@ -63,6 +79,20 @@ export class StorageService {
     await this._storage?.set('personajes', this._localPersonajes );
     console.log(this._localPersonajes)
     this.personajesSubject.next(this._localPersonajes);  // Notify subscribers about the change
+  }
+
+  async saveRemoveQrs( personaje: any ) {
+    const exists = this._localQrs.find( localPersonaje => localPersonaje.character === personaje.character );
+
+    if ( exists ) {
+      this._localQrs = this._localQrs.filter( localPersonaje => localPersonaje.id !== personaje.id );
+    } else {
+      this._localQrs = [ personaje, ...this._localQrs];
+    }
+
+    await this._storage?.set('qrs', this._localQrs );
+    console.log(this._localQrs)
+    this.qrsSubject.next(this._localQrs);  // Notify subscribers about the change
   }
 
 }
