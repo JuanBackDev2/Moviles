@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Personaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Personaje</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-personaje *ngIf="personaje" [personaje] = "personaje"></app-personaje>
+</ion-content>

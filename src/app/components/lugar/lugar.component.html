@@ -1,0 +1,18 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{lugar.name}}</ion-card-title>
+    <ion-card-subtitle>Lugar</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <h1>Tipo: {{lugar.type}} <br/><br/>Dimensión: {{lugar.dimension}} </h1>
+  </ion-card-content>
+  
+</ion-card>
+
+
+<app-personajes *ngIf="residentes"
+[personajes]="residentes"
+[titulo]="'Residentes'"
+[subtitulo]="'Ricky And Morty'"
+></app-personajes>

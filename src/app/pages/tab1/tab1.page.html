@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Personajes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Personajes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <app-personajes 
+  [personajes]="personajes"
+  [titulo]="'Personajes'"
+  [subtitulo]="'Ricky And Morty'"
+  ></app-personajes>
+  
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
+  <!-- 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Personajes</ion-card-title>
+      <ion-card-subtitle>Ricky Morty</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-list>
+
+        <ion-item *ngFor="let personaje of personajes">
+          <ion-thumbnail slot="start">
+            <img alt="Foto Personaje" 
+            src="{{personaje.image}}"/>
+          </ion-thumbnail>
+          <ion-label>{{personaje.name}}</ion-label>
+        </ion-item>
+  
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  -->
+
+
+  <!--
+  <app-explore-container name="Personajes page"></app-explore-container>
+  -->
+</ion-content>
