@@ -1,24 +1,29 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Barcode scanner</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let qr of qrs" class="item-space" >
+          <ion-label position="stacked">Latitude: {{qr.latitude}}</ion-label>
+          <ion-label position="stacked">Altitud: {{qr.altitude}}</ion-label>
+          <ion-label position="stacked">Longitud: {{qr.longitude}}</ion-label>
+          
+          <ion-label position="stacked" (click)="irAPersonaje(qr.character.id)">Personaje: {{qr.character.name}}</ion-label>
+          <div class="image-container">
+            <img alt="Silhouette of mountains" [src]="qr.character.image" class="small-image" />
+            <img *ngIf="qr.instaImage" [src]="qr.instaImage" class="small-image" />
+          </div>
+        </ion-item>
+      </ion-list>
+    
+    </ion-card-content>
+  </ion-card>
 
-
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Barcode scanner</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-list>
-      <ion-item *ngFor="let qr of qrs" class="item-space" >
-        <ion-label position="stacked">Latitude: {{qr.latitude}}</ion-label>
-        <ion-label position="stacked">Altitud: {{qr.altitude}}</ion-label>
-        <ion-label position="stacked">Longitud: {{qr.longitude}}</ion-label>
-        <ion-label position="stacked" >Personaje: {{qr.character}}</ion-label>
-      </ion-item>
-    </ion-list>
-   
-  </ion-card-content>
-</ion-card>
-
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button (click)="scan()" [disabled]="!isSupported">
-    <ion-icon name="scan"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="scan()" [disabled]="!isSupported">
+      <ion-icon name="scan"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

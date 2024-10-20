@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController } from '@ionic/angular';
+import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { StorageService } from 'src/app/services/storage.service';
+import { RickyMortyBdService } from 'src/app/services/ricky-morty-bd.service';
+import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
@@ -10,14 +13,14 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 
 export class Tab4Page implements OnInit {
-
+  imageUri: string | undefined;
   isSupported = false;
   barcodes: Barcode[] = [];
   coordinates:Position[] = [];
   isModuleAvailable = false;
   qrs:any = [];
 
-  constructor(private alertController: AlertController, private storageService:StorageService) {}
+  constructor(private alertController: AlertController, private storageService:StorageService, private bd: RickyMortyBdService,private router:Router) {}
 
   ngOnInit() {
     BarcodeScanner.isSupported().then((result) => {
@@ -65,16 +68,32 @@ export class Tab4Page implements OnInit {
 
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
-    let coords = this.printCurrentPosition();
+    
 
+    let personaje = await this.cargarPersonaje(barcodes[barcodes.length-1].rawValue);
+    console.log('Response from getPersonajeId:', personaje.name);
+
+    const image = await Camera.getPhoto({
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera, // or CameraSource.Photos to select from the gallery
+      quality: 90
+    });
+
+    let coords = await this.printCurrentPosition();
+    
     let myObject = {
-      character: barcodes[barcodes.length-1].rawValue,
-      latitude: (await coords).coords.latitude,
-      longitude: (await coords).coords.longitude,
-      altitude: (await coords).coords.altitude,
+      character: personaje,
+      instaImage:image.webPath,
+      latitude: (coords).coords.latitude,
+      longitude: (coords).coords.longitude,
+      altitude: (coords).coords.altitude
     };
 
-    this.storageService.saveRemoveQrs(myObject);
+    await this.storageService.saveRemoveQrs(myObject);
+
+  
+    // Save the image URI to a class property to use in the HTML
+    this.imageUri = image.webPath; // Use webPath for web display
   }
 
   async requestPermissions(): Promise<boolean> {
@@ -96,4 +115,25 @@ export class Tab4Page implements OnInit {
     this.coordinates.push(coordinates)
     return coordinates;
   };
+
+  async cargarPersonaje(url:any) {
+
+    let parts = url.split('/');
+    let id = parts[parts.length - 1];
+
+    return await this.bd
+      .getPersonajeId(id)
+      .toPromise()
+      .then((resp: any) => {
+        return resp;
+
+
+      });
+  }
+
+  irAPersonaje(unIdPersonaje:number){
+    console.log(unIdPersonaje);
+    this.router.navigate(['/pagina2',unIdPersonaje])
+  }
+
 }

@@ -6,7 +6,23 @@
   }
 
   ion-item{
-    min-height: 60px;
+    min-height: 80px;
     padding: 6px; 
     margin: 20px;
   }
+
+  .small-image {
+    margin-top: 20px;
+    width: 70px;
+    height: 70px;
+    object-fit: cover; /* Ensures the image retains its aspect ratio */
+  }
+
+  
+  .image-container {
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Center vertically */
+  }
+  
+
+  

@@ -82,10 +82,10 @@ export class StorageService {
   }
 
   async saveRemoveQrs( personaje: any ) {
-    const exists = this._localQrs.find( localPersonaje => localPersonaje.character === personaje.character );
+    const exists = this._localQrs.find( localPersonaje => localPersonaje.character.id === personaje.character.id );
 
     if ( exists ) {
-      this._localQrs = this._localQrs.filter( localPersonaje => localPersonaje.id !== personaje.id );
+      this._localQrs = this._localQrs.filter( localPersonaje => localPersonaje.character.id !== personaje.character.id );
     } else {
       this._localQrs = [ personaje, ...this._localQrs];
     }
