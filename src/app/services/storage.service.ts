@@ -39,6 +39,10 @@ export class StorageService {
     return [ ...this._localPersonajes ]
   }
 
+  get getLocalQRS() {
+    return [ ...this._localQrs]
+  }
+
   async loadFavorites() {
     try {
       

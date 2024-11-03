@@ -6,6 +6,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import { RickyMortyBdService } from 'src/app/services/ricky-morty-bd.service';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import * as L from 'leaflet';
+
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
@@ -19,6 +21,7 @@ export class Tab4Page implements OnInit {
   coordinates:Position[] = [];
   isModuleAvailable = false;
   qrs:any = [];
+  private map!: L.Map;
 
   constructor(private alertController: AlertController, private storageService:StorageService, private bd: RickyMortyBdService,private router:Router) {}
 
@@ -91,7 +94,7 @@ export class Tab4Page implements OnInit {
 
     await this.storageService.saveRemoveQrs(myObject);
 
-  
+    this.initMap()
     // Save the image URI to a class property to use in the HTML
     this.imageUri = image.webPath; // Use webPath for web display
   }
@@ -136,4 +139,28 @@ export class Tab4Page implements OnInit {
     this.router.navigate(['/pagina2',unIdPersonaje])
   }
 
+  private initMap(): void {
+    const latitude = 3.43722; // Replace with your latitude
+    const longitude = -76.5225; // Replace with your longitude
+
+    const defaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+      iconSize: [25, 41], // size of the icon
+      iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+      shadowSize: [41, 41] // size of the shadow
+    });
+
+    // Initialize the map and set its view to the specified latitude and longitude
+    this.map = L.map('map').setView([latitude, longitude], 13);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(this.map);
+
+    // Add a marker at the specified location
+    const marker = L.marker([latitude, longitude], { icon: defaultIcon }).addTo(this.map);
+    marker.bindPopup('You are here!').openPopup();
+  }
 }
