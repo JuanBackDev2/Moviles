@@ -6,8 +6,8 @@
               <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" class="illustration" />
               <h1 class="opacity">LOGIN</h1>
               <form (ngSubmit)="onSubmit()">
-                  <input type="text" placeholder="USERNAME" />
-                  <input type="password" placeholder="PASSWORD" />
+                  <input type="text" placeholder="EMAIL" [(ngModel)]="email" name="email" required/>
+                  <input type="password" placeholder="PASSWORD"  [(ngModel)]="password" name="password" required />
                   <button class="opacity" type="submit">SUBMIT</button>
               </form>
               <div class="register-forget opacity">
