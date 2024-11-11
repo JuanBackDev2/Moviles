@@ -8,4 +8,12 @@
   <ion-card-content>
     Genero: {{personaje.gender}} - Estado: {{personaje.status}} - Especie: {{personaje.species}}
   </ion-card-content>
+
+  <ion-buttons>
+    <ion-button (click)="toggleFavorite(personaje)" aria-label="Favorite">
+      <ion-icon [name]="isFavorite ? 'heart' : 'heart-outline'" slot="icon-only" aria-hidden="true"></ion-icon>
+    </ion-button>  
+  </ion-buttons>
+
 </ion-card>
+

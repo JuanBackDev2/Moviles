@@ -13,8 +13,8 @@
         <ion-label (click)="irAPersonaje(personaje.id)">{{personaje.name}}</ion-label>
         
         <ion-buttons>
-          <ion-button (click)="addFavorito(personaje)" aria-label="Favorite">
-            <ion-icon [name]= "esFavorito(personaje)? 'heart': 'heart-outline'" slot="icon-only"aria-hidden="true"></ion-icon>
+          <ion-button (click)="addFavorito(personaje)" aria-label="Favorite"> 
+            <ion-icon [name]= "esFavorito(personaje)? 'arrow-forward': 'arrow-forward'" slot="icon-only"aria-hidden="true"></ion-icon>
           </ion-button>  
         </ion-buttons>
       </ion-item>

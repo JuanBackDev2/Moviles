@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { IonTabs } from '@ionic/angular';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -13,17 +15,29 @@ export class FavoritosComponent  implements OnInit {
   @Input() titulo:string = '';
   @Input() subtitulo:string = '';
 
-  constructor(private router:Router, private storageService:StorageService) { 
+  constructor(private router:Router, private storageService:StorageService, private dbservice:DbserviceService, private ionTabs: IonTabs) { 
     
   }
 
   ngOnInit() {
-    
-    this.storageService.personajes$.subscribe((personajes) => {
-      this.personajesFav = personajes;
+    this.getFavorites("Jhon")
+
+    this.ionTabs.ionTabsDidChange.subscribe(() => {
+      console.log("Tab has changed, reloading data...");
+      this.getFavorites("Jhon");
     });
-    console.log(this.personajesFav)
     
+   
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // You can check the event.url or event.urlAfterRedirects for specific routes
+        console.log('Navigation started to: ', event.url);
+        this.getFavorites('Jhon');
+        if (event.url === '/pagina2') {
+          this.getFavorites('Jhon'); // Call your function to reload data
+        }
+      }
+    });
   }
 
   irAPersonaje(unIdPersonaje:number){
@@ -31,20 +45,18 @@ export class FavoritosComponent  implements OnInit {
     this.router.navigate(['/pagina2',unIdPersonaje])
   }
 
-  addFavorito(unPersonaje:any){
-    console.log("ADDFavorite",unPersonaje);
-    this.storageService.saveRemovePersonaje(unPersonaje);
+  
 
-  }
-
-  esFavorito(unPersonaje:any):boolean{
-
-    if(this.storageService.personajeInFavorites(unPersonaje)){
-      return true;
-    }
-    else {
-      return false;
-    }
+  getFavorites(owner: string): void {
+    this.dbservice.getFavoritos().subscribe(
+      (response) => {
+        this.personajesFav = response;
+        console.log('Favorites:', this.personajesFav);
+      },
+      (error) => {
+        console.error('Error fetching favorites:', error);
+      }
+    );
   }
 
 }

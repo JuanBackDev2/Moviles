@@ -8,15 +8,10 @@
 
       <ion-item *ngFor="let personaje of personajesFav">
         <ion-thumbnail slot="start">
-          <img alt="Foto Personaje" src="{{personaje.image}}" />
+          <img alt="Foto Personaje" src="{{personaje.img}}" />
         </ion-thumbnail>
         <ion-label (click)="irAPersonaje(personaje.id)">{{personaje.name}}</ion-label>
         
-        <ion-buttons>
-          <ion-button (click)="addFavorito(personaje)" aria-label="Favorite">
-            <ion-icon [name]= "esFavorito(personaje)? 'heart': 'heart-outline'" slot="icon-only"aria-hidden="true"></ion-icon>
-          </ion-button>  
-        </ion-buttons>
       </ion-item>
 
     </ion-list>
