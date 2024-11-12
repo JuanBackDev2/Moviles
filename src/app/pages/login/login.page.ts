@@ -27,6 +27,8 @@ export class LoginPage implements OnInit {
         if(data === "Invalid email or password"){
           alert("Invalid email or pass")
         }else{
+          //console.log(data.f_name) store this in auth so that dbservice can subscribe
+          this.authService.setUsername(data.f_name)
           this.router.navigate(['/e/tabs']);
         }
         

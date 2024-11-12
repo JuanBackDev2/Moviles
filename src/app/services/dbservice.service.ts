@@ -1,23 +1,30 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DbserviceService {
 
-  constructor(private http: HttpClient) { }
+  username!: string;
+
+  constructor(private http: HttpClient,private authService: AuthService) { 
+    this.authService.username$.subscribe((name) => {
+      this.username = name;
+    });
+  }
 
   async saveFavorite(personaje:any){
     let img = personaje.image
     let id = personaje.id 
     let name = personaje.name
-    let owner = "Jhon"
+    let owner = this.username
     let apiUrlOne = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/savefav'
     let apiUrlTwo = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/existsfav'
     const body = { img, id,name,owner};  
 
-    let params = new HttpParams().set('id', id).set('owner',"Jhon");
+    let params = new HttpParams().set('id', id).set('owner',this.username);
 
     this.http.get<any>(apiUrlTwo, { params }).subscribe(response => {
       if (response === "exists") {
@@ -37,7 +44,7 @@ export class DbserviceService {
   deleteFav(id:any){
     let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/deletefav'
 
-    const params = new HttpParams().set('id', id).set('owner','Jhon');
+    const params = new HttpParams().set('id', id).set('owner',this.username);
 
     this.http.delete(apiUrl, { params }).subscribe(
       response => {
@@ -53,15 +60,27 @@ export class DbserviceService {
 
 
   esFav(personaje:any){
-    let params = new HttpParams().set('id', personaje.id).set('owner',"Jhon");
+    let params = new HttpParams().set('id', personaje.id).set('owner',this.username);
     let apiUrlTwo = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/existsfav'
 
     return this.http.get<any>(apiUrlTwo,{params});
   }
 
   getFavoritos(){
-    let params = new HttpParams().set('owner', "Jhon");
+    let params = new HttpParams().set('owner', this.username);
      let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getfavoritos'
      return this.http.get<any>(apiUrl,{params});
+  }
+
+
+  saveCapturado(capturado:any){
+     let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/saveCapturado'
+     return this.http.post<any>(apiUrl,capturado);
+  }
+
+  async getCapturados(){
+    let params = new HttpParams().set('owner', this.username);
+    let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getCapturados'
+    return this.http.get<any>(apiUrl,{params});
   }
 }

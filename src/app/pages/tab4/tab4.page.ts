@@ -7,6 +7,8 @@ import { RickyMortyBdService } from 'src/app/services/ricky-morty-bd.service';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import * as L from 'leaflet';
+import { DbserviceService } from 'src/app/services/dbservice.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-tab4',
@@ -22,19 +24,29 @@ export class Tab4Page implements OnInit {
   isModuleAvailable = false;
   qrs:any = [];
   private map!: L.Map;
+  username: string | null = null;
 
-  constructor(private alertController: AlertController, private storageService:StorageService, private bd: RickyMortyBdService,private router:Router) {}
+  constructor(private alertController: AlertController, private storageService:StorageService, private bd: RickyMortyBdService,private router:Router, private dbservice:DbserviceService, private authService: AuthService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    this.authService.username$.subscribe((name) => {
+      this.username = name;
+    });
+
     BarcodeScanner.isSupported().then((result) => {
       this.isSupported = result.supported;
     });
 
     this.checkModuleAvailability(); // Check for module availability
-    
+    /*
     this.storageService.qrs$.subscribe((qrs) => {
       this.qrs = qrs;
     });
+    */
+   (await this.dbservice.getCapturados()).subscribe((qrs)=>{
+    this.qrs = qrs
+   });
   }
 
   async checkModuleAvailability(): Promise<void> {
@@ -76,27 +88,59 @@ export class Tab4Page implements OnInit {
     let personaje = await this.cargarPersonaje(barcodes[barcodes.length-1].rawValue);
     console.log('Response from getPersonajeId:', personaje.name);
 
-    const image = await Camera.getPhoto({
+    /*
+    const image = await Camera.getPhoto({                  #MAYBE USE Google Cloud Storage, or Azure Blob Storage
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera, // or CameraSource.Photos to select from the gallery
       quality: 90
     });
-
+    */
     let coords = await this.printCurrentPosition();
     
     let myObject = {
-      character: personaje,
-      instaImage:image.webPath,
+      name: personaje.name,
+      id:personaje.id,
+      img:personaje.image,
       latitude: (coords).coords.latitude,
       longitude: (coords).coords.longitude,
-      altitude: (coords).coords.altitude
+      altitude: (coords).coords.altitude,
+      owner: this.username
     };
 
-    await this.storageService.saveRemoveQrs(myObject);
+    const character = this.qrs.find((char: any) => char.id === personaje.id);
 
-    this.initMap()
+    if(character){
+      console.log(character.id," ",this.username)
+      return
+    }else{
+
+    this.dbservice.saveCapturado(myObject).subscribe(async (res)=>{
+      console.log(res);
+
+      (await this.dbservice.getCapturados()).subscribe(
+        (qrs) => {
+          this.qrs = qrs; // Update your local data
+          console.log("Updated qrs:", this.qrs);
+        },
+        (error) => {
+          console.log("Error fetching capturados:", error);
+        }
+      );
+    },(error)=>{
+      console.log(error.error)
+    })
+    console.log("after capturado",myObject.latitude);
+    //await this.storageService.saveRemoveQrs(myObject);
+
+    /*
+    (await this.dbservice.getCapturados()).subscribe((qrs)=>{
+      this.qrs = qrs
+     });*/
+
+     this.initMap();
+  }
     // Save the image URI to a class property to use in the HTML
-    this.imageUri = image.webPath; // Use webPath for web display
+    //this.imageUri = image.webPath; // Use webPath for web display
   }
 
   async requestPermissions(): Promise<boolean> {

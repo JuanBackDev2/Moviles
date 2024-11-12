@@ -10,10 +10,10 @@
           <ion-label position="stacked">Altitud: {{qr.altitude}}</ion-label>
           <ion-label position="stacked">Longitud: {{qr.longitude}}</ion-label>
           
-          <ion-label position="stacked" (click)="irAPersonaje(qr.character.id)">Personaje: {{qr.character.name}}</ion-label>
+          <ion-label position="stacked" (click)="irAPersonaje(qr.id)">Personaje: {{qr.name}}</ion-label>
           <div class="image-container">
-            <img alt="Silhouette of mountains" [src]="qr.character.image" class="small-image" />
-            <img *ngIf="qr.instaImage" [src]="qr.instaImage" class="small-image" />
+            <img alt="Silhouette of mountains" [src]="qr.img" class="small-image" />
+            <!--<img *ngIf="qr.instaImage" [src]="qr.instaImage" class="small-image" />-->
           </div>
         </ion-item>
       </ion-list>
