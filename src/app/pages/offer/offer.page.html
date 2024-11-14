@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Subastas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Capturados para ofertar</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <table class="styled-table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>image</th>
+            <th>offer</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of capturados; let i = index" [ngClass]="{'active-row': i === 1}">
+        <td>{{ row.id}}</td>
+        <td>{{ row.name}}</td>
+        <td><img [src]="row.img" alt="{{ row.idori }}" width="50" height="50"></td>
+        <td>
+          <ion-button (click)="addOffer(row.id)" aria-label="Favorite"> <!--U can use original id and original owner and send this data to choose the rick to change-->
+            <ion-icon name="checkmark" slot="icon-only" aria-hidden="true"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+      
+    </tbody>
+</table>
+
+</ion-content>

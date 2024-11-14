@@ -83,4 +83,14 @@ export class DbserviceService {
     let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getCapturados'
     return this.http.get<any>(apiUrl,{params});
   }
+
+  async getSubastas(){
+    let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getSubastas'
+    return this.http.get<any>(apiUrl);
+  }
+
+  saveOffer(offer:any){
+    let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/saveSubasta'
+    return this.http.post<any>(apiUrl,offer);
+ }
 }

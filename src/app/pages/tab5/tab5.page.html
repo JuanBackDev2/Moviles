@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Subastas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Subastas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <table class="styled-table">
+    <thead>
+        <tr>
+            <th>owner</th>
+            <th>id</th>
+            <th>Name</th>
+            <th>image</th>
+            <th>trade</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of firstData; let i = index" [ngClass]="{'active-row': i === 1}">
+        <td>{{ row.nombreduenoori}}</td>
+        <td>{{ row.idori}}</td>
+        <td>{{ row.characterName}}</td>
+        <td><img [src]="'https://rickandmortyapi.com/api/character/avatar/' + row.idori + '.jpeg'" alt="{{ row.idori }}" width="50" height="50"></td>
+        <td>
+          <ion-button (click)="goTrade(row)" aria-label="Favorite"> <!--U can use original id and original owner and send this data to choose the rick to change-->
+            <ion-icon name="share-social" slot="icon-only" aria-hidden="true"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>
+      
+    </tbody>
+</table>
+
+<div>
+<ion-button (click)="add()" aria-label="Favorite"> <!--U can use original id and original owner and send this data to choose the rick to change-->
+  <ion-icon name="add" slot="icon-only" aria-hidden="true"></ion-icon>
+</ion-button>
+</div>
+</ion-content>
