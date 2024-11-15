@@ -93,4 +93,15 @@ export class DbserviceService {
     let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/saveSubasta'
     return this.http.post<any>(apiUrl,offer);
  }
+
+ saveExchangeRequest(offer:any){
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/exchangeRequest'
+  return this.http.post<any>(apiUrl,offer);
+}
+
+async getExRequests(){
+  let params = new HttpParams().set('owner', this.username);
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getExRequests'
+  return this.http.get<any>(apiUrl,{params});
+}
 }

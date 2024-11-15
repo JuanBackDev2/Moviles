@@ -195,6 +195,14 @@ export class Tab4Page implements OnInit {
       shadowSize: [41, 41] // size of the shadow
     });
 
+    const defaultIconTwo = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+      iconSize: [25, 41], // size of the icon
+      iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+      shadowSize: [41, 41] // size of the shadow
+    });
+
     // Initialize the map and set its view to the specified latitude and longitude
     this.map = L.map('map').setView([latitude, longitude], 13);
 
@@ -205,6 +213,8 @@ export class Tab4Page implements OnInit {
 
     // Add a marker at the specified location
     const marker = L.marker([latitude, longitude], { icon: defaultIcon }).addTo(this.map);
-    marker.bindPopup('You are here!').openPopup();
+    const markertwo =L.marker([3.4360,-76.48], { icon: defaultIconTwo }).addTo(this.map);
+    //marker.bindPopup('You are here!').openPopup();
+    //markertwo.bindPopup('You are here!').openPopup();
   }
 }

@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
         }else{
           //console.log(data.f_name) store this in auth so that dbservice can subscribe
           this.authService.setUsername(data.f_name)
-          this.router.navigate(['/e/tabs']);
+          this.router.navigate(['/e/tabs/tab1']);
         }
         
         console.log("here")

@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of capturados; let i = index" [ngClass]="{'active-row': i === 1}">
+      <tr *ngFor="let row of capturados; let i = index">
         <td>{{ row.id}}</td>
         <td>{{ row.name}}</td>
         <td><img [src]="row.img" alt="{{ row.idori }}" width="50" height="50"></td>

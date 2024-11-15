@@ -30,6 +30,14 @@ const routes: Routes = [
   {
     path: 'offer',
     loadChildren: () => import('./pages/offer/offer.module').then( m => m.OfferPageModule)
+  },
+  {
+    path: 'offer-two',
+    loadChildren: () => import('./pages/offer-two/offer-two.module').then( m => m.OfferTwoPageModule)
+  },
+  {
+    path: 'tab6',
+    loadChildren: () => import('./pages/tab6/tab6.module').then( m => m.Tab6PageModule)
   }
 ];
 @NgModule({

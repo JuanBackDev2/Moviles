@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonTabs } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
@@ -11,9 +12,10 @@ import { DbserviceService } from 'src/app/services/dbservice.service';
 })
 export class Tab5Page implements OnInit {
 
-  constructor(private dbservice:DbserviceService,private router: Router,private http: HttpClient,private ionTabs: IonTabs,private route: ActivatedRoute) { }
+  constructor(private dbservice:DbserviceService,private router: Router,private http: HttpClient,private ionTabs: IonTabs,private route: ActivatedRoute,private authService: AuthService) { }
 
   firstData:any = []
+  username!: string;
 
   ngOnInit() {
     this.getSubastas();
@@ -27,6 +29,10 @@ export class Tab5Page implements OnInit {
       if (params['reload']) {
         this.getSubastas();
       }
+    });
+
+    this.authService.username$.subscribe((name) => {
+      this.username = name;
     });
 
   }
@@ -70,7 +76,12 @@ export class Tab5Page implements OnInit {
 
 
   goTrade(row:any){
+    if(row.nombreduenoori===this.username){
+      alert("You can't trade your own character!")
+      return
+    }
 
+    this.router.navigate(['/offer-two'], { queryParams: { data: JSON.stringify(row) } });
   }
 
   add(){
