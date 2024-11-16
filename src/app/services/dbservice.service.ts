@@ -104,4 +104,10 @@ async getExRequests(){
   let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getExRequests'
   return this.http.get<any>(apiUrl,{params});
 }
+
+saveAcceptExchange(offer:any){
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/acceptExchange'
+  return this.http.post<any>(apiUrl,offer);
+}
+
 }

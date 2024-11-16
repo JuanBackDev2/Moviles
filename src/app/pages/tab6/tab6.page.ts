@@ -19,7 +19,25 @@ export class Tab6Page implements OnInit {
     })
   }
 
-  doTrade(){
-    alert("Acc")
+  async doTrade(trade:any){
+    let obj = {
+      idori: trade.idori,
+      nombreduenori: trade.nombreduenoori,
+      nombreduenointer: trade.nombreduenointer,
+      idinter: trade.idinter
+    }
+    
+    this.dbservice.saveAcceptExchange(obj).subscribe(
+      response => {
+        console.log('Response:', response);
+        alert("Se ha realizado el intercambio")
+        window.location.reload(); 
+      },
+      error => {
+        console.error('Error:', error);
+        // Handle the error, maybe show an error message
+      });
+
+      
   }
 }
