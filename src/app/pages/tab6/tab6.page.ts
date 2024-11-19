@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonTabs } from '@ionic/angular';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
@@ -9,7 +11,7 @@ import { DbserviceService } from 'src/app/services/dbservice.service';
 export class Tab6Page implements OnInit {
 
   currentDate = new Date(); 
-  constructor(private dbservice:DbserviceService) { }
+  constructor(private dbservice:DbserviceService,private ionTabs: IonTabs,private router: Router) { }
 
   messages:any[] = []
  
@@ -17,6 +19,13 @@ export class Tab6Page implements OnInit {
     (await this.dbservice.getExRequests()).subscribe(res=>{
       this.messages = res
     })
+
+    this.ionTabs.ionTabsDidChange.subscribe(async () => {
+      console.log("Tab has changed, reloading data...");
+      (await this.dbservice.getExRequests()).subscribe(res=>{
+        this.messages = res
+      })
+    });
   }
 
   async doTrade(trade:any){
@@ -31,7 +40,8 @@ export class Tab6Page implements OnInit {
       response => {
         console.log('Response:', response);
         alert("Se ha realizado el intercambio")
-        window.location.reload(); 
+        //window.location.reload(); 
+        this.router.navigate(['/e/tabs/tab7'], { queryParams: { reload: true } });
       },
       error => {
         console.error('Error:', error);

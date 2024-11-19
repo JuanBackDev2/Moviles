@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Personajes intercambiados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Personajes intercambiados</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<div style="overflow-x: auto; white-space: nowrap;">
+  <table class="styled-table">
+    <thead>
+        <tr>
+            <th>owner</th>
+            <th>idpersonaje</th>
+            <th>Name</th>
+            <th>img nuevo</th>
+            <th>Intercambiado</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of firstData; let i = index">
+        <td>{{ row.nombrenuevo}}</td>
+        <td>{{ row.idnuevo}}</td>
+        <td>{{ row.characterName}}</td>
+        <td><img [src]="'https://rickandmortyapi.com/api/character/avatar/' + row.idnuevo + '.jpeg'" alt="{{ row.idnuevo }}" width="50" height="50"></td>
+        <td>{{ row.exchangedByName}}</td>
+      </tr>
+      
+    </tbody>
+</table>
+</div>
+</ion-content>

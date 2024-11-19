@@ -110,4 +110,10 @@ saveAcceptExchange(offer:any){
   return this.http.post<any>(apiUrl,offer);
 }
 
+async getIntercambiados(){
+  let params = new HttpParams().set('owner', this.username);
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getIntercambiados'
+  return this.http.get<any>(apiUrl,{params});
+}
+
 }
