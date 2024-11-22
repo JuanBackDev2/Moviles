@@ -42,6 +42,10 @@ const routes: Routes = [
   {
     path: 'tab7',
     loadChildren: () => import('./pages/tab7/tab7.module').then( m => m.Tab7PageModule)
+  },
+  {
+    path: 'tabmap',
+    loadChildren: () => import('./pages/tabmap/tabmap.module').then( m => m.TabmapPageModule)
   }
 ];
 @NgModule({
