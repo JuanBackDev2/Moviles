@@ -46,6 +46,14 @@ const routes: Routes = [
   {
     path: 'tabmap',
     loadChildren: () => import('./pages/tabmap/tabmap.module').then( m => m.TabmapPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'leaderboard',
+    loadChildren: () => import('./pages/leaderboard/leaderboard.module').then( m => m.LeaderboardPageModule)
   }
 ];
 @NgModule({

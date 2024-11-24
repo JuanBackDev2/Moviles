@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>leaderboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Leaderboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<div style="overflow-x: auto; white-space: nowrap;">
+  <table class="styled-table">
+    <thead>
+        <tr>
+            <th>place</th>
+            <th>owner</th>
+            <th>Intercambios</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableData; let i = index">
+        <td>{{ i+1}}</td>
+        <td>{{ row.owner }}</td>
+        <td>{{ row.intercambios }}</td>
+    </tr>
+      
+    </tbody>
+</table>
+</div>
+
+
+</ion-content>

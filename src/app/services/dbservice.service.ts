@@ -116,4 +116,15 @@ async getIntercambiados(){
   return this.http.get<any>(apiUrl,{params});
 }
 
+saveAccount(acc:any){
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/saveAccount'
+  return this.http.post<any>(apiUrl,acc);
+}
+
+async getAllInter(){
+  let apiUrl = 'https://nodemovilesback-gsa4hgdkabf5cac3.canadacentral-01.azurewebsites.net/getAllInter'
+  return this.http.get<any>(apiUrl);
+}
+
+
 }

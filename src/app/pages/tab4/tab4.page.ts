@@ -137,7 +137,7 @@ export class Tab4Page implements OnInit {
       this.qrs = qrs
      });*/
 
-     this.initMap();
+     //this.initMap();
   }
     // Save the image URI to a class property to use in the HTML
     //this.imageUri = image.webPath; // Use webPath for web display

@@ -93,10 +93,12 @@ export class TabmapPage implements OnInit {
     console.log("before lat",this.qrs)
     for (const qr of this.qrs) {
       L.marker([qr.latitude, qr.longitude], { icon: defaultIcon }).addTo(this.map);
+      //this.markerGroup.addLayer(marker); 
       console.log(qr.latitude, qr.longitude)
     }
     for (const int of this.inter) {
       L.marker([int.latnuevo, int.longnuevo], { icon: defaultIconTwo }).addTo(this.map);
+      //this.markerGroup.addLayer(marker); 
     }
     //marker.bindPopup('You are here!').openPopup();
     //markertwo.bindPopup('You are here!').openPopup();
